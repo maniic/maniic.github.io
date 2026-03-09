@@ -170,6 +170,44 @@
       margin-bottom: 3rem;
     }
 
+    /* ── Education ── */
+    .edu-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 2rem;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .edu-period {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      padding-top: 2px;
+    }
+
+    .edu-degree {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .edu-school {
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.6rem;
+    }
+
+    .edu-detail {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
     /* ── Projects ── */
     .projects-grid {
       display: grid;
@@ -288,6 +326,27 @@
       line-height: 1.75;
     }
 
+    /* ── Skills ── */
+    .skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .skills-category-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .skills-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
@@ -343,7 +402,7 @@
       .container { padding: 0 1.25rem; }
       .hero { padding: 12rem 0 6rem; }
       .hero-name { font-size: 2.2rem; }
-      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .exp-item, .edu-item { grid-template-columns: 1fr; gap: 0.5rem; }
       .footer-inner { flex-direction: column; align-items: flex-start; }
       .nav-links { gap: 1.2rem; }
     }
@@ -355,9 +414,11 @@
   <nav>
     <a class="nav-logo" href="#">AC</a>
     <ul class="nav-links">
+      <li><a href="#education">Education</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#experience">Experience</a></li>
-      <li><a href="mailto:abdullah@example.com">Contact</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="mailto:a.chabaytah@mail.utoronto.ca">Contact</a></li>
     </ul>
   </nav>
 
@@ -367,12 +428,30 @@
       <p class="hero-label">Portfolio</p>
       <h1 class="hero-name">Abdullah<br /><span>Chabaytah</span></h1>
       <p class="hero-tagline">
-        Software engineer focused on building clean, purposeful software. Interested in systems, web, and the details that matter.
+        CS student at the University of Toronto, focused on machine learning, systems, and backend engineering.
       </p>
       <div class="hero-cta">
         <a class="cta-link" href="#projects">View work</a>
         <a class="cta-link" href="https://github.com/maniic" target="_blank" rel="noopener">GitHub</a>
-        <a class="cta-link" href="mailto:abdullah@example.com">Email</a>
+        <a class="cta-link" href="https://linkedin.com/in/achabaytah" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="cta-link" href="mailto:a.chabaytah@mail.utoronto.ca">Email</a>
+      </div>
+    </section>
+  </div>
+
+  <!-- Education -->
+  <div class="container" id="education">
+    <section>
+      <p class="section-label reveal">Education</p>
+      <div class="edu-item reveal">
+        <div>
+          <p class="edu-period">2024 — 2028</p>
+        </div>
+        <div>
+          <p class="edu-degree">HBSc in Computer Science</p>
+          <p class="edu-school">University of Toronto</p>
+          <p class="edu-detail">Minor in Mathematics & Statistics. Expected graduation May 2028.</p>
+        </div>
       </div>
     </section>
   </div>
@@ -385,46 +464,46 @@
 
         <div class="project-card">
           <div class="project-top">
-            <span class="project-name">Project One</span>
-            <a class="project-link" href="#">↗ View</a>
+            <span class="project-name">Predictive Maintenance ML</span>
           </div>
           <p class="project-desc">
-            A brief description of what this project does, the problem it solves, and what makes it interesting. Keep it direct and honest.
-          </p>
-          <div class="project-tags">
-            <span class="tag">TypeScript</span>
-            <span class="tag">Node.js</span>
-            <span class="tag">PostgreSQL</span>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-top">
-            <span class="project-name">Project Two</span>
-            <a class="project-link" href="#">↗ View</a>
-          </div>
-          <p class="project-desc">
-            Another project — describe its purpose, what you built, and what you learned from it. One or two sentences is enough.
+            Deep learning models for equipment failure prediction, achieving 11.7 RMSE on NASA turbofan engine data with experiment tracking and hyperparameter optimization.
           </p>
           <div class="project-tags">
             <span class="tag">Python</span>
-            <span class="tag">FastAPI</span>
-            <span class="tag">Redis</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">MLflow</span>
+            <span class="tag">Scikit-learn</span>
           </div>
         </div>
 
         <div class="project-card">
           <div class="project-top">
-            <span class="project-name">Project Three</span>
-            <a class="project-link" href="#">↗ View</a>
+            <span class="project-name">Sentiment Forecasting</span>
           </div>
           <p class="project-desc">
-            A third project. Maybe open-source, maybe a personal tool — something that reflects how you think and what you care about.
+            FinBERT-powered trading signal pipeline that analyzes financial news sentiment to generate stock predictions, achieving a 2.34 Sharpe ratio in backtesting.
           </p>
           <div class="project-tags">
-            <span class="tag">Rust</span>
-            <span class="tag">CLI</span>
-            <span class="tag">Open Source</span>
+            <span class="tag">Python</span>
+            <span class="tag">FinBERT</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">Streamlit</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-top">
+            <span class="project-name">MoodVerse</span>
+          </div>
+          <p class="project-desc">
+            Desktop diary application with NLP-based sentiment analysis that generates personalized music and movie recommendations based on journal entries.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Java</span>
+            <span class="tag">CoreNLP</span>
+            <span class="tag">Spotify API</span>
+            <span class="tag">TMDb API</span>
           </div>
         </div>
 
@@ -440,40 +519,61 @@
 
         <div class="exp-item">
           <div class="exp-meta">
-            <p class="exp-period">2024 — Now</p>
+            <p class="exp-period">May — Sep 2024</p>
           </div>
           <div>
-            <p class="exp-role">Software Engineer</p>
-            <p class="exp-company">Company Name</p>
+            <p class="exp-role">Software Engineer Intern</p>
+            <p class="exp-company">Sports Up</p>
             <p class="exp-desc">
-              What you do here — keep it short. Focus on impact, not a job description. What did you build, improve, or ship?
+              Optimized Django backend services and improved API performance. Prototyped AI-driven predictive automation features and established engineering standards across the team.
             </p>
           </div>
         </div>
 
-        <div class="exp-item">
-          <div class="exp-meta">
-            <p class="exp-period">2022 — 2024</p>
-          </div>
-          <div>
-            <p class="exp-role">Software Developer</p>
-            <p class="exp-company">Previous Company</p>
-            <p class="exp-desc">
-              A sentence or two about what you worked on. Technologies you used, problems you solved, things you're proud of.
-            </p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Skills -->
+  <div class="container" id="skills">
+    <section>
+      <p class="section-label reveal">Skills</p>
+      <div class="skills-grid reveal">
+
+        <div>
+          <p class="skills-category-label">Languages</p>
+          <div class="skills-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Java</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">C</span>
+            <span class="tag">SQL</span>
+            <span class="tag">HTML/CSS</span>
           </div>
         </div>
 
-        <div class="exp-item">
-          <div class="exp-meta">
-            <p class="exp-period">2021 — 2022</p>
+        <div>
+          <p class="skills-category-label">Frameworks</p>
+          <div class="skills-tags">
+            <span class="tag">PyTorch</span>
+            <span class="tag">Scikit-learn</span>
+            <span class="tag">Django</span>
+            <span class="tag">React</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">Streamlit</span>
           </div>
-          <div>
-            <p class="exp-role">Intern / Junior Developer</p>
-            <p class="exp-company">First Role</p>
-            <p class="exp-desc">
-              Where you started. What you learned early on. Shows trajectory and growth.
-            </p>
+        </div>
+
+        <div>
+          <p class="skills-category-label">Tools</p>
+          <div class="skills-tags">
+            <span class="tag">Git</span>
+            <span class="tag">Docker</span>
+            <span class="tag">MLflow</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Linux</span>
+            <span class="tag">REST APIs</span>
           </div>
         </div>
 
@@ -485,11 +585,11 @@
   <div class="container">
     <footer>
       <div class="footer-inner">
-        <p class="footer-copy">© 2026 Abdullah Chabaytah</p>
+        <p class="footer-copy">&copy; 2026 Abdullah Chabaytah</p>
         <div class="footer-links">
           <a href="https://github.com/maniic" target="_blank" rel="noopener">GitHub</a>
-          <a href="https://linkedin.com/in/" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="mailto:abdullah@example.com">Email</a>
+          <a href="https://linkedin.com/in/achabaytah" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:a.chabaytah@mail.utoronto.ca">Email</a>
         </div>
       </div>
     </footer>

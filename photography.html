@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photography — Abdullah Chabaytah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #faf8f5;
+      --bg-card: #ffffff;
+      --text: #2a2a2a;
+      --muted: #888;
+      --accent: #e8734a;
+      --accent-glow: rgba(232, 115, 74, 0.04);
+      --border: #e8e4df;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+      --mx: 50%;
+      --my: 50%;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.3;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(600px circle at var(--mx) var(--my), var(--accent-glow), transparent 60%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .container--narrow {
+      max-width: 720px;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(250, 248, 245, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-logo:hover { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
+
+    /* Page header */
+    .page-header {
+      padding: 10rem 0 3rem;
+      max-width: 720px;
+    }
+
+    .page-title {
+      font-family: var(--mono);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 420px;
+    }
+
+    /* Photo gallery — masonry-style with CSS columns */
+    .gallery {
+      columns: 3;
+      column-gap: 1rem;
+      padding-bottom: 4rem;
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      background: var(--border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Placeholder styling for photos that haven't been added yet */
+    .gallery-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      background: linear-gradient(135deg, #eee8e2 0%, #e2ddd7 100%);
+      user-select: none;
+    }
+
+    .gallery-placeholder span {
+      opacity: 0.5;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 800px) {
+      .gallery { columns: 2; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .container { padding: 0 1.25rem; }
+      .page-header { padding: 8rem 0 2rem; }
+      .gallery { columns: 1; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .nav-links { gap: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="/">abdullah chabaytah</a>
+    <ul class="nav-links">
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/photography.html" class="active">Photography</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Photography</h1>
+      <p class="page-subtitle">A few moments I thought were worth keeping.</p>
+    </div>
+
+    <div class="gallery reveal" id="gallery">
+      <div class="gallery-item gallery-placeholder" style="aspect-ratio: 3/4;"><span>Photo 1</span></div>
+      <div class="gallery-item gallery-placeholder" style="aspect-ratio: 4/3;"><span>Photo 2</span></div>
+      <div class="gallery-item gallery-placeholder" style="aspect-ratio: 1/1;"><span>Photo 3</span></div>
+      <div class="gallery-item gallery-placeholder" style="aspect-ratio: 3/4;"><span>Photo 4</span></div>
+      <div class="gallery-item gallery-placeholder" style="aspect-ratio: 16/9;"><span>Photo 5</span></div>
+      <div class="gallery-item gallery-placeholder" style="aspect-ratio: 4/5;"><span>Photo 6</span></div>
+      <div class="gallery-item gallery-placeholder" style="aspect-ratio: 3/2;"><span>Photo 7</span></div>
+      <div class="gallery-item gallery-placeholder" style="aspect-ratio: 4/3;"><span>Photo 8</span></div>
+    </div>
+  </div>
+
+  <div class="container container--narrow">
+    <footer>
+      <div class="footer-inner">
+        <p class="footer-copy">&copy; 2026 Abdullah Chabaytah</p>
+        <div class="footer-links">
+          <a href="https://github.com/maniic" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://linkedin.com/in/achabaytah" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:a.chabaytah@mail.utoronto.ca">Email</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+    // Scroll reveal
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.05 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Cursor glow
+    if (!isTouch) {
+      document.addEventListener('mousemove', (e) => {
+        document.documentElement.style.setProperty('--mx', e.clientX + 'px');
+        document.documentElement.style.setProperty('--my', e.clientY + 'px');
+      });
+    }
+  </script>
+</body>
+</html>

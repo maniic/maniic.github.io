@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Abdullah Chabaytah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @property --angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    :root {
+      --bg: #faf8f5;
+      --bg-card: #ffffff;
+      --text: #2a2a2a;
+      --muted: #888;
+      --accent: #e8734a;
+      --accent-glow: rgba(232, 115, 74, 0.04);
+      --border: #e8e4df;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+      --mx: 50%;
+      --my: 50%;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.3;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(600px circle at var(--mx) var(--my), var(--accent-glow), transparent 60%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(250, 248, 245, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-logo:hover { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
+
+    /* Page header */
+    .page-header {
+      padding: 10rem 0 3rem;
+    }
+
+    .page-title {
+      font-family: var(--mono);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 420px;
+    }
+
+    /* Project cards */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      padding-bottom: 4rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+      transition: background 0.2s, border-color 0.3s;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: conic-gradient(from var(--angle), var(--accent), transparent 30%, transparent 70%, var(--accent));
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s;
+      animation: rotateBorder 4s linear infinite;
+      border-radius: 1px;
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    @keyframes rotateBorder {
+      to { --angle: 360deg; }
+    }
+
+    .project-card + .project-card {
+      margin-top: 1rem;
+    }
+
+    .project-name {
+      font-family: var(--mono);
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+
+    .project-desc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .project-desc li {
+      position: relative;
+      padding-left: 1.2em;
+      margin-bottom: 0.4rem;
+    }
+
+    .project-desc li::before {
+      content: '\2013';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 3px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tag:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .stagger-child {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .stagger-child.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .container { padding: 0 1.25rem; }
+      .page-header { padding: 8rem 0 2rem; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .nav-links { gap: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="/">abdullah chabaytah</a>
+    <ul class="nav-links">
+      <li><a href="/projects.html" class="active">Projects</a></li>
+      <li><a href="/photography.html">Photography</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Projects</h1>
+      <p class="page-subtitle">A selection of things I've built — mostly ML pipelines, data systems, and full-stack tools.</p>
+    </div>
+
+    <div class="projects-list reveal" id="projectsList">
+
+      <div class="project-card stagger-child">
+        <p class="project-name">Predictive Maintenance Machine Learning</p>
+        <div class="project-desc">
+          <ul>
+            <li>Developed deep learning models (LSTM, CNN, Transformer, Ensemble) using PyTorch and PyTorch Lightning to predict equipment failure, achieving 11.7 RMSE on NASA benchmark data and enabling data-driven maintenance decisions</li>
+            <li>Engineered end-to-end ML pipelines using Pandas and Scikit-learn to process 21 sensor channels across 700+ equipment trajectories, implementing automated feature engineering and data quality checks</li>
+            <li>Designed MLflow experiment tracking to version models, log metrics, and compare results across 100+ training runs, enabling reproducible, scalable analytics workflows</li>
+            <li>Translated business risk requirements into custom asymmetric loss functions to prioritize avoiding late failure predictions, aligning ML optimization with operational safety priorities</li>
+          </ul>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">MLflow</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">Scikit-learn</span>
+        </div>
+      </div>
+
+      <div class="project-card stagger-child">
+        <p class="project-name">Sentiment Forecasting</p>
+        <div class="project-desc">
+          <ul>
+            <li>Developed sentiment forecasting pipeline achieving 2.34 Sharpe ratio and -2.5% max drawdown across 180 days of backtesting, by fusing FinBERT transformer outputs with 9 topological features and 6 momentum indicators</li>
+            <li>Processed 500+ financial headlines per run through FinBERT (110M parameters) with 32-batch inference, reducing sentiment scoring latency to 3 seconds on CPU</li>
+            <li>Implemented Topological Data Analysis using 4-dimensional delay embeddings on 60-day rolling windows, extracting H0/H1 persistence features that captured market regime shifts missed by traditional indicators</li>
+          </ul>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Hugging Face (FinBERT)</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">pandas</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">yfinance</span>
+          <span class="tag">Streamlit</span>
+        </div>
+      </div>
+
+      <div class="project-card stagger-child">
+        <p class="project-name">MoodVerse</p>
+        <div class="project-desc">
+          <ul>
+            <li>Developed a desktop diary management system with NLP-driven sentiment analysis and media recommendation, achieving 40% faster entry retrieval, 92&ndash;95% sentiment consistency across a validation set of 150+ entries, and producing emotion-aligned media recommendations that boosted perceived relevance by 30%</li>
+            <li>Optimized text processing and storage pipelines, cutting entry save/load times by 45% through efficient JSON serialization and caching, enabling smooth navigation across 200+ diary entries without UI lag</li>
+            <li>Designed a sentiment-to-media recommendation engine that maps emotional tone to curated Spotify/IMDb suggestions, increasing user engagement with recommended content by 35% in prototype testing</li>
+          </ul>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Java</span>
+          <span class="tag">Stanford CoreNLP</span>
+          <span class="tag">Spotify Web API</span>
+          <span class="tag">TMDb API</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container">
+    <footer>
+      <div class="footer-inner">
+        <p class="footer-copy">&copy; 2026 Abdullah Chabaytah</p>
+        <div class="footer-links">
+          <a href="https://github.com/maniic" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://linkedin.com/in/achabaytah" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:a.chabaytah@mail.utoronto.ca">Email</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+    // Scroll reveal with stagger
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          const children = e.target.querySelectorAll('.stagger-child');
+          children.forEach((child, i) => {
+            child.style.transitionDelay = `${i * 120}ms`;
+            setTimeout(() => child.classList.add('visible'), 10);
+          });
+        }
+      }),
+      { threshold: 0.05 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Cursor glow
+    if (!isTouch) {
+      document.addEventListener('mousemove', (e) => {
+        document.documentElement.style.setProperty('--mx', e.clientX + 'px');
+        document.documentElement.style.setProperty('--my', e.clientY + 'px');
+      });
+    }
+  </script>
+</body>
+</html>

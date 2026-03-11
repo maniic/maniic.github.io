@@ -10,19 +10,13 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    @property --angle {
-      syntax: '<angle>';
-      initial-value: 0deg;
-      inherits: false;
-    }
-
     :root {
       --bg: #faf8f5;
       --bg-card: #ffffff;
       --text: #2a2a2a;
       --muted: #888;
       --accent: #e8734a;
-      --accent-glow: rgba(232, 115, 74, 0.04);
+      --accent-glow: rgba(232, 115, 74, 0.15);
       --border: #e8e4df;
       --mono: 'IBM Plex Mono', monospace;
       --sans: 'IBM Plex Sans', sans-serif;
@@ -143,25 +137,11 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       padding: 2rem;
-      position: relative;
       transition: background 0.2s, border-color 0.3s;
     }
 
-    .project-card::before {
-      content: '';
-      position: absolute;
-      inset: -1px;
-      background: conic-gradient(from var(--angle), var(--accent), transparent 30%, transparent 70%, var(--accent));
-      z-index: -1;
-      opacity: 0;
-      transition: opacity 0.4s;
-      animation: rotateBorder 4s linear infinite;
-      border-radius: 1px;
-    }
-    .project-card:hover::before { opacity: 1; }
-
-    @keyframes rotateBorder {
-      to { --angle: 360deg; }
+    .project-card:hover {
+      border-color: var(--accent);
     }
 
     .project-card + .project-card {

@@ -10,15 +10,25 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ── Animated gradient angle property ── */
+    @property --angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
     :root {
       --bg: #0a0a0a;
       --bg-2: #111111;
       --text: #e2e2e2;
       --muted: #555;
       --accent: #5effa0;
+      --accent-dim: rgba(94, 255, 160, 0.08);
       --border: #1e1e1e;
       --mono: 'IBM Plex Mono', monospace;
       --sans: 'IBM Plex Sans', sans-serif;
+      --mx: 50%;
+      --my: 50%;
     }
 
     html { scroll-behavior: smooth; }
@@ -30,6 +40,7 @@
       font-size: 14px;
       line-height: 1.7;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     /* ── Noise overlay ── */
@@ -41,6 +52,87 @@
       pointer-events: none;
       z-index: 9999;
       opacity: 0.4;
+    }
+
+    /* ── Cursor glow ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(600px circle at var(--mx) var(--my), rgba(94, 255, 160, 0.045), transparent 60%);
+      pointer-events: none;
+      z-index: 1;
+      transition: opacity 0.3s;
+    }
+
+    /* ── Aurora background ── */
+    .aurora {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .aurora-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.12;
+      will-change: transform;
+    }
+
+    .aurora-blob:nth-child(1) {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, #5effa0, transparent 70%);
+      top: -10%;
+      left: -5%;
+      animation: auroraFloat1 20s ease-in-out infinite alternate;
+    }
+
+    .aurora-blob:nth-child(2) {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, #3a7bd5, transparent 70%);
+      top: 30%;
+      right: -10%;
+      animation: auroraFloat2 25s ease-in-out infinite alternate;
+    }
+
+    .aurora-blob:nth-child(3) {
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, #8b5cf6, transparent 70%);
+      bottom: -5%;
+      left: 20%;
+      animation: auroraFloat3 18s ease-in-out infinite alternate;
+    }
+
+    .aurora-blob:nth-child(4) {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, #06b6d4, transparent 70%);
+      top: 60%;
+      left: -15%;
+      animation: auroraFloat4 22s ease-in-out infinite alternate;
+    }
+
+    @keyframes auroraFloat1 {
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(120px, 80px) scale(1.15); }
+    }
+    @keyframes auroraFloat2 {
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-100px, 60px) scale(1.1); }
+    }
+    @keyframes auroraFloat3 {
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(80px, -100px) scale(1.2); }
+    }
+    @keyframes auroraFloat4 {
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(60px, -50px) scale(1.1); }
     }
 
     /* ── Layout ── */
@@ -93,14 +185,28 @@
       font-size: 12px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      transition: color 0.2s;
+      transition: color 0.3s;
+      position: relative;
     }
-    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.3s;
+    }
+    .nav-links a.active::after { width: 100%; }
 
     /* ── Hero ── */
     .hero {
       padding: 18rem 0 8rem;
       border-top: none;
+      position: relative;
     }
 
     .hero-label {
@@ -122,11 +228,27 @@
       color: var(--text);
       margin-bottom: 1.5rem;
       opacity: 0;
-      animation: fadeUp 0.6s 0.2s forwards;
+      min-height: 2.6em;
+    }
+
+    .hero-name.scramble-done {
+      opacity: 1;
+      background: linear-gradient(90deg, var(--text) 0%, var(--accent) 50%, var(--text) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 5s linear infinite;
     }
 
     .hero-name span {
       color: var(--accent);
+      -webkit-text-fill-color: var(--accent);
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
     }
 
     .hero-tagline {
@@ -157,9 +279,25 @@
       color: var(--text);
       border-bottom: 1px solid var(--border);
       padding-bottom: 2px;
-      transition: color 0.2s, border-color 0.2s;
+      transition: color 0.2s, border-color 0.2s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      display: inline-block;
     }
     .cta-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── Code rain canvas ── */
+    .code-rain {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 760px;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.07;
+      mask-image: linear-gradient(to bottom, black 40%, transparent 95%);
+      -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 95%);
+    }
 
     /* ── Section header ── */
     .section-label {
@@ -168,6 +306,20 @@
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 3rem;
+      cursor: default;
+      display: inline-block;
+      position: relative;
+    }
+
+    .section-label:hover {
+      animation: glitch 0.3s steps(2) forwards;
+    }
+
+    @keyframes glitch {
+      0%   { clip-path: inset(20% 0 40% 0); transform: translate(-2px); }
+      25%  { clip-path: inset(60% 0 10% 0); transform: translate(2px); }
+      50%  { clip-path: inset(10% 0 60% 0); transform: translate(-1px); }
+      100% { clip-path: none; transform: none; }
     }
 
     /* ── Education ── */
@@ -219,10 +371,29 @@
     .project-card {
       background: var(--bg);
       padding: 2rem;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.15s ease-out, border-color 0.3s;
       cursor: default;
+      position: relative;
+      transform-style: preserve-3d;
     }
     .project-card:hover { background: var(--bg-2); }
+
+    /* Animated border on hover */
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: conic-gradient(from var(--angle), var(--accent), transparent 30%, transparent 70%, var(--accent));
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s;
+      animation: rotateBorder 4s linear infinite;
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    @keyframes rotateBorder {
+      to { --angle: 360deg; }
+    }
 
     .project-top {
       display: flex;
@@ -259,6 +430,30 @@
       margin-bottom: 1.25rem;
     }
 
+    .project-desc ul,
+    .exp-desc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .project-desc li,
+    .exp-desc li {
+      position: relative;
+      padding-left: 1.2em;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc li::before,
+    .exp-desc li::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
     .project-tags {
       display: flex;
       flex-wrap: wrap;
@@ -272,6 +467,11 @@
       color: var(--muted);
       border: 1px solid var(--border);
       padding: 2px 8px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tag:hover {
+      color: var(--accent);
+      border-color: var(--accent);
     }
 
     /* ── Experience ── */
@@ -288,8 +488,8 @@
       padding: 1.75rem 0;
       border-bottom: 1px solid var(--border);
       opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.5s, transform 0.5s;
+      transform: translateY(30px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .exp-item.visible { opacity: 1; transform: translateY(0); }
 
@@ -391,10 +591,18 @@
     /* ── Scroll reveal ── */
     .reveal {
       opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.55s, transform 0.55s;
+      transform: translateY(30px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Stagger children */
+    .stagger-child {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .stagger-child.visible { opacity: 1; transform: translateY(0); }
 
     /* ── Mobile ── */
     @media (max-width: 600px) {
@@ -409,6 +617,14 @@
   </style>
 </head>
 <body>
+
+  <!-- Aurora background -->
+  <div class="aurora">
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+  </div>
 
   <!-- Nav -->
   <nav>
@@ -425,16 +641,17 @@
   <!-- Hero -->
   <div class="container">
     <section class="hero">
+      <canvas class="code-rain" id="codeRain"></canvas>
       <p class="hero-label">Portfolio</p>
-      <h1 class="hero-name">Abdullah<br /><span>Chabaytah</span></h1>
+      <h1 class="hero-name" id="heroName" aria-label="Abdullah Chabaytah">Abdullah<br /><span>Chabaytah</span></h1>
       <p class="hero-tagline">
         CS student at the University of Toronto, focused on machine learning, systems, and backend engineering.
       </p>
       <div class="hero-cta">
-        <a class="cta-link" href="#projects">View work</a>
-        <a class="cta-link" href="https://github.com/maniic" target="_blank" rel="noopener">GitHub</a>
-        <a class="cta-link" href="https://linkedin.com/in/achabaytah" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="cta-link" href="mailto:a.chabaytah@mail.utoronto.ca">Email</a>
+        <a class="cta-link magnetic" href="#projects">View work</a>
+        <a class="cta-link magnetic" href="https://github.com/maniic" target="_blank" rel="noopener">GitHub</a>
+        <a class="cta-link magnetic" href="https://linkedin.com/in/achabaytah" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="cta-link magnetic" href="mailto:a.chabaytah@mail.utoronto.ca">Email</a>
       </div>
     </section>
   </div>
@@ -462,47 +679,65 @@
       <p class="section-label reveal">Projects</p>
       <div class="projects-grid reveal">
 
-        <div class="project-card">
+        <div class="project-card tilt-card stagger-child">
           <div class="project-top">
-            <span class="project-name">Predictive Maintenance ML</span>
+            <span class="project-name">Predictive Maintenance Machine Learning</span>
           </div>
-          <p class="project-desc">
-            Deep learning models for equipment failure prediction, achieving 11.7 RMSE on NASA turbofan engine data with experiment tracking and hyperparameter optimization.
-          </p>
+          <div class="project-desc">
+            <ul>
+              <li>Developed deep learning models (LSTM, CNN, Transformer, Ensemble) using PyTorch and PyTorch Lightning to predict equipment failure, achieving 11.7 RMSE on NASA benchmark data and enabling data-driven maintenance decisions</li>
+              <li>Engineered end-to-end ML pipelines using Pandas and Scikit-learn to process 21 sensor channels across 700+ equipment trajectories, implementing automated feature engineering and data quality checks</li>
+              <li>Designed MLflow experiment tracking to version models, log metrics, and compare results across 100+ training runs, enabling reproducible, scalable analytics workflows</li>
+              <li>Translated business risk requirements into custom asymmetric loss functions to prioritize avoiding late failure predictions, aligning ML optimization with operational safety priorities</li>
+            </ul>
+          </div>
           <div class="project-tags">
             <span class="tag">Python</span>
             <span class="tag">PyTorch</span>
             <span class="tag">MLflow</span>
+            <span class="tag">Pandas</span>
+            <span class="tag">NumPy</span>
             <span class="tag">Scikit-learn</span>
           </div>
         </div>
 
-        <div class="project-card">
+        <div class="project-card tilt-card stagger-child">
           <div class="project-top">
             <span class="project-name">Sentiment Forecasting</span>
           </div>
-          <p class="project-desc">
-            FinBERT-powered trading signal pipeline that analyzes financial news sentiment to generate stock predictions, achieving a 2.34 Sharpe ratio in backtesting.
-          </p>
+          <div class="project-desc">
+            <ul>
+              <li>Developed sentiment forecasting pipeline achieving 2.34 Sharpe ratio and -2.5% max drawdown across 180 days of backtesting, by fusing FinBERT transformer outputs with 9 topological features and 6 momentum indicators</li>
+              <li>Processed 500+ financial headlines per run through FinBERT (110M parameters) with 32-batch inference, reducing sentiment scoring latency to 3 seconds on CPU</li>
+              <li>Implemented Topological Data Analysis using 4-dimensional delay embeddings on 60-day rolling windows, extracting H0/H1 persistence features that captured market regime shifts missed by traditional indicators</li>
+            </ul>
+          </div>
           <div class="project-tags">
             <span class="tag">Python</span>
-            <span class="tag">FinBERT</span>
+            <span class="tag">Hugging Face (FinBERT)</span>
             <span class="tag">PyTorch</span>
+            <span class="tag">pandas</span>
+            <span class="tag">scikit-learn</span>
+            <span class="tag">yfinance</span>
             <span class="tag">Streamlit</span>
           </div>
         </div>
 
-        <div class="project-card">
+        <div class="project-card tilt-card stagger-child">
           <div class="project-top">
             <span class="project-name">MoodVerse</span>
           </div>
-          <p class="project-desc">
-            Desktop diary application with NLP-based sentiment analysis that generates personalized music and movie recommendations based on journal entries.
-          </p>
+          <div class="project-desc">
+            <ul>
+              <li>Developed a desktop diary management system with NLP-driven sentiment analysis and media recommendation, achieving 40% faster entry retrieval, 92–95% sentiment consistency across a validation set of 150+ entries, and producing emotion-aligned media recommendations that boosted perceived relevance by 30%</li>
+              <li>Optimized text processing and storage pipelines, cutting entry save/load times by 45% through efficient JSON serialization and caching, enabling smooth navigation across 200+ diary entries without UI lag</li>
+              <li>Designed a sentiment-to-media recommendation engine that maps emotional tone to curated Spotify/IMDb suggestions, increasing user engagement with recommended content by 35% in prototype testing</li>
+            </ul>
+          </div>
           <div class="project-tags">
             <span class="tag">Java</span>
-            <span class="tag">CoreNLP</span>
-            <span class="tag">Spotify API</span>
+            <span class="tag">Stanford CoreNLP</span>
+            <span class="tag">Spotify Web API</span>
             <span class="tag">TMDb API</span>
           </div>
         </div>
@@ -524,9 +759,13 @@
           <div>
             <p class="exp-role">Software Engineer Intern</p>
             <p class="exp-company">Sports Up</p>
-            <p class="exp-desc">
-              Optimized Django backend services and improved API performance. Prototyped AI-driven predictive automation features and established engineering standards across the team.
-            </p>
+            <div class="exp-desc">
+              <ul>
+                <li>Built and optimized back-end services in Python (Django), reducing internal system response times and improving scalability of data processing workflows</li>
+                <li>Prototyped AI-driven features for predictive automation, designing data pipelines that informed production roadmap decisions for ongoing platform development</li>
+                <li>Strengthened team engineering standards by establishing consistent code review practices, debugging cross-module issues, and contributing test coverage that improved deployment confidence</li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -545,35 +784,39 @@
           <div class="skills-tags">
             <span class="tag">Python</span>
             <span class="tag">Java</span>
+            <span class="tag">C++</span>
             <span class="tag">JavaScript</span>
             <span class="tag">TypeScript</span>
             <span class="tag">C</span>
             <span class="tag">SQL</span>
             <span class="tag">HTML/CSS</span>
+            <span class="tag">R</span>
           </div>
         </div>
 
         <div>
-          <p class="skills-category-label">Frameworks</p>
+          <p class="skills-category-label">Frameworks & Libraries</p>
           <div class="skills-tags">
-            <span class="tag">PyTorch</span>
-            <span class="tag">Scikit-learn</span>
-            <span class="tag">Django</span>
             <span class="tag">React</span>
             <span class="tag">Node.js</span>
-            <span class="tag">Streamlit</span>
+            <span class="tag">Flask</span>
+            <span class="tag">Django</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">Pandas</span>
+            <span class="tag">NumPy</span>
+            <span class="tag">Matplotlib</span>
+            <span class="tag">PyTorch</span>
           </div>
         </div>
 
         <div>
-          <p class="skills-category-label">Tools</p>
+          <p class="skills-category-label">Systems & Tools</p>
           <div class="skills-tags">
+            <span class="tag">VS Code</span>
             <span class="tag">Git</span>
             <span class="tag">Docker</span>
-            <span class="tag">MLflow</span>
-            <span class="tag">PostgreSQL</span>
-            <span class="tag">Linux</span>
-            <span class="tag">REST APIs</span>
+            <span class="tag">PyCharm</span>
+            <span class="tag">IntelliJ</span>
           </div>
         </div>
 
@@ -596,12 +839,200 @@
   </div>
 
   <script>
-    // Scroll reveal
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-      { threshold: 0.12 }
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+    // ── Scroll reveal with stagger ──
+    const revealObserver = new IntersectionObserver(
+      (entries) => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          // Stagger children
+          const children = e.target.querySelectorAll('.stagger-child');
+          children.forEach((child, i) => {
+            child.style.transitionDelay = `${i * 120}ms`;
+            setTimeout(() => child.classList.add('visible'), 10);
+          });
+        }
+      }),
+      { threshold: 0.1 }
     );
-    document.querySelectorAll('.reveal, .exp-item').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal, .exp-item').forEach(el => revealObserver.observe(el));
+
+    // ── Nav scroll spy ──
+    const sections = ['education', 'projects', 'experience', 'skills'];
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+    const spyObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            navLinks.forEach(link => link.classList.remove('active'));
+            const id = e.target.id;
+            const activeLink = document.querySelector(`.nav-links a[href="#${id}"]`);
+            if (activeLink) activeLink.classList.add('active');
+          }
+        });
+      },
+      { rootMargin: '-30% 0px -60% 0px' }
+    );
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) spyObserver.observe(el);
+    });
+
+    // ── Cursor glow (desktop only) ──
+    if (!isTouch) {
+      document.addEventListener('mousemove', (e) => {
+        document.documentElement.style.setProperty('--mx', e.clientX + 'px');
+        document.documentElement.style.setProperty('--my', e.clientY + 'px');
+      });
+    }
+
+    // ── Hero text scramble ──
+    (function scrambleHero() {
+      const el = document.getElementById('heroName');
+      const firstName = 'Abdullah';
+      const lastName = 'Chabaytah';
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*<>{}[]';
+      const totalLen = firstName.length + lastName.length;
+      let resolved = 0;
+      let frame = 0;
+
+      el.style.opacity = '1';
+
+      function randomChar() {
+        return chars[Math.floor(Math.random() * chars.length)];
+      }
+
+      function render() {
+        let firstPart = '';
+        let secondPart = '';
+
+        for (let i = 0; i < firstName.length; i++) {
+          firstPart += i < resolved ? firstName[i] : randomChar();
+        }
+
+        const secondResolved = Math.max(0, resolved - firstName.length);
+        for (let i = 0; i < lastName.length; i++) {
+          secondPart += i < secondResolved ? lastName[i] : randomChar();
+        }
+
+        el.innerHTML = firstPart + '<br /><span>' + secondPart + '</span>';
+      }
+
+      function tick() {
+        frame++;
+        if (frame % 2 === 0 && resolved < totalLen) {
+          resolved++;
+        }
+        render();
+
+        if (resolved < totalLen) {
+          requestAnimationFrame(tick);
+        } else {
+          // Final render with correct text
+          el.innerHTML = firstName + '<br /><span>' + lastName + '</span>';
+          el.classList.add('scramble-done');
+        }
+      }
+
+      setTimeout(() => {
+        requestAnimationFrame(tick);
+      }, 300);
+    })();
+
+    // ── Card 3D tilt (desktop only) ──
+    if (!isTouch) {
+      document.querySelectorAll('.tilt-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -4;
+          const rotateY = ((x - centerX) / centerX) * 4;
+
+          card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(800px) rotateX(0) rotateY(0)';
+          card.style.transition = 'transform 0.4s ease-out, background 0.2s';
+        });
+
+        card.addEventListener('mouseenter', () => {
+          card.style.transition = 'background 0.2s';
+        });
+      });
+    }
+
+    // ── Magnetic buttons (desktop only) ──
+    if (!isTouch) {
+      document.querySelectorAll('.magnetic').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transform = 'translate(0, 0)';
+        });
+      });
+    }
+
+    // ── Code rain canvas (desktop only) ──
+    if (!isTouch && window.innerWidth > 768) {
+      const canvas = document.getElementById('codeRain');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        const heroSection = canvas.parentElement;
+
+        function resizeCanvas() {
+          canvas.width = canvas.offsetWidth;
+          canvas.height = canvas.offsetHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const charset = '01{}[]<>/;:=+-*λΣΔ∫≈≠'.split('');
+        const fontSize = 14;
+        const columns = Math.floor(canvas.width / fontSize);
+        const drops = new Array(columns).fill(0).map(() => Math.random() * -50);
+
+        let lastTime = 0;
+        const frameInterval = 120; // ~8 FPS
+
+        function drawRain(time) {
+          requestAnimationFrame(drawRain);
+
+          if (time - lastTime < frameInterval) return;
+          lastTime = time;
+
+          ctx.fillStyle = 'rgba(10, 10, 10, 0.15)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          ctx.fillStyle = '#5effa0';
+          ctx.font = fontSize + 'px IBM Plex Mono';
+
+          for (let i = 0; i < drops.length; i++) {
+            const char = charset[Math.floor(Math.random() * charset.length)];
+            ctx.globalAlpha = 0.4 + Math.random() * 0.6;
+            ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+              drops[i] = 0;
+            }
+            drops[i] += 0.5 + Math.random() * 0.5;
+          }
+          ctx.globalAlpha = 1;
+        }
+
+        requestAnimationFrame(drawRain);
+      }
+    }
   </script>
 </body>
 </html>

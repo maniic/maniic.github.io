@@ -288,18 +288,17 @@
         <p class="project-name">Predictive Maintenance Machine Learning</p>
         <div class="project-desc">
           <ul>
-            <li>Developed deep learning models (LSTM, CNN, Transformer, Ensemble) using PyTorch and PyTorch Lightning to predict equipment failure, achieving 11.7 RMSE on NASA benchmark data and enabling data-driven maintenance decisions</li>
-            <li>Engineered end-to-end ML pipelines using Pandas and Scikit-learn to process 21 sensor channels across 700+ equipment trajectories, implementing automated feature engineering and data quality checks</li>
-            <li>Designed MLflow experiment tracking to version models, log metrics, and compare results across 100+ training runs, enabling reproducible, scalable analytics workflows</li>
+            <li>Trained deep learning architectures including Bidirectional LSTM, Temporal CNN, and Transformer using PyTorch Lightning to predict jet engine failure on NASA benchmark data, achieving 11.71 RMSE</li>
+            <li>Built end-to-end data pipelines processing sensor channels across multiple fault-mode datasets, implementing normalization, sequence windowing, and automated data quality validation</li>
+            <li>Instrumented MLflow to log hyperparameters, metrics, and model artifacts across 100+ training runs, enabling reproducible experiment tracking and model comparison</li>
           </ul>
         </div>
         <div class="project-tags">
           <span class="tag">Python</span>
           <span class="tag">PyTorch</span>
           <span class="tag">MLflow</span>
-          <span class="tag">Pandas</span>
-          <span class="tag">NumPy</span>
           <span class="tag">Scikit-learn</span>
+          <span class="tag">Pandas</span>
         </div>
       </div>
 
@@ -307,19 +306,17 @@
         <p class="project-name">Sentiment Forecasting</p>
         <div class="project-desc">
           <ul>
-            <li>Developed sentiment forecasting pipeline achieving 2.34 Sharpe ratio and -2.5% max drawdown across 180 days of backtesting, by fusing FinBERT transformer outputs with 9 topological features and 6 momentum indicators</li>
-            <li>Processed 500+ financial headlines per run through FinBERT (110M parameters) with 32-batch inference, reducing sentiment scoring latency to 3 seconds on CPU</li>
-            <li>Implemented Topological Data Analysis using 4-dimensional delay embeddings on 60-day rolling windows, extracting H0/H1 persistence features that captured market regime shifts missed by traditional indicators</li>
+            <li>Built a Python quantitative forecasting pipeline achieving a 2.34 Sharpe ratio and &minus;2.5% max drawdown over 180-day backtests by fusing FinBERT outputs with topological &amp; momentum features</li>
+            <li>Trained and evaluated Logistic Regression, XGBoost, and Ensemble classifiers using time-series aware cross-validation to eliminate look-ahead bias, selecting the optimal model via Sharpe ratio on held-out data</li>
+            <li>Implemented Topological Data Analysis using 4-dimensional delay embeddings on 60-day rolling windows to extract market regime signals absent from traditional indicators</li>
           </ul>
         </div>
         <div class="project-tags">
           <span class="tag">Python</span>
-          <span class="tag">Hugging Face (FinBERT)</span>
           <span class="tag">PyTorch</span>
-          <span class="tag">pandas</span>
-          <span class="tag">scikit-learn</span>
-          <span class="tag">yfinance</span>
-          <span class="tag">Streamlit</span>
+          <span class="tag">Hugging Face</span>
+          <span class="tag">Scikit-learn</span>
+          <span class="tag">Pandas</span>
         </div>
       </div>
 
@@ -327,15 +324,13 @@
         <p class="project-name">MoodVerse</p>
         <div class="project-desc">
           <ul>
-            <li>Developed a desktop diary management system with NLP-driven sentiment analysis and media recommendation, achieving 40% faster entry retrieval, 92&ndash;95% sentiment consistency across a validation set of 150+ entries, and producing emotion-aligned media recommendations that boosted perceived relevance by 30%</li>
-            <li>Designed a sentiment-to-media recommendation engine that maps emotional tone to curated Spotify/IMDb suggestions, increasing user engagement with recommended content by 35% in prototype testing</li>
+            <li>Built a Java desktop diary system with Stanford CoreNLP-powered sentiment analysis, classifying emotional tone across 150 journal entries with 95% consistency &amp; mapping outputs to a curated media recommendation engine</li>
+            <li>Designed a sentiment-to-media mapping layer integrating the Spotify &amp; TMDb APIs to surface emotion-aligned content recommendations, increasing prototype engagement with suggested media by 35%</li>
           </ul>
         </div>
         <div class="project-tags">
           <span class="tag">Java</span>
           <span class="tag">Stanford CoreNLP</span>
-          <span class="tag">Spotify Web API</span>
-          <span class="tag">TMDb API</span>
         </div>
       </div>
 

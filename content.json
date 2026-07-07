@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "siteTitle": "Abdullah Chabaytah",
+    "resumeFile": "Abdullah_s_Resume_2026.pdf"
+  },
+  "hero": {
+    "firstName": "Abdullah",
+    "lastName": "Chabaytah",
+    "roles": [
+      "machine learning",
+      "backend engineering",
+      "systems programming",
+      "photography"
+    ],
+    "tagline": "CS student at the <a href=\"https://www.utoronto.ca\" target=\"_blank\" rel=\"noopener\">University of Toronto</a>, focused on machine learning, systems, and backend engineering."
+  },
+  "socials": {
+    "github": "https://github.com/maniic",
+    "linkedin": "https://linkedin.com/in/achabaytah",
+    "email": "a.chabaytah@mail.utoronto.ca"
+  },
+  "education": [
+    {
+      "period": "2024 — 2028",
+      "degree": "HBSc Computer Science, Math & Statistics",
+      "school": "University of Toronto",
+      "details": [
+        "Expected graduation May 2028.",
+        "<strong>Relevant Coursework:</strong> Data Structures & Algorithms, Theoretical Computation, Software Design, Systems Programming, Multivariable Calculus, Calculus with Proofs, Probability, Statistics & Data Analysis"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "period": "May — Sep 2025",
+      "role": "Software Developer Intern",
+      "company": "Sports Up — Toronto, ON",
+      "bullets": [
+        "Engineered a cross-platform mobile application using React Native & Firebase, achieving 99% uptime across 100+ users under sustained loads of 50 requests/sec via real-time data synchronization & optimized query batching",
+        "Reduced crash rates by 35% & increased weekly active users by 20% by refactoring backend architecture and rebuilding UI/UX components to eliminate state management bottlenecks",
+        "Implemented end-to-end testing frameworks using automated test suites to enforce deployment quality gates, cutting regression failures across 3 major feature releases"
+      ]
+    },
+    {
+      "period": "Jan 2025 — Present",
+      "role": "Data Labeling Contractor",
+      "company": "Outlier AI — Remote",
+      "bullets": [
+        "Annotated & validated NLP and computer vision training datasets, applying domain-specific labeling schemas to improve model precision across production ML pipelines"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "category": "Languages",
+      "items": ["Python", "TypeScript/JavaScript", "C/C++", "Java", "Golang", "R", "Kotlin", "Assembly", "Rust", "SQL", "HTML/CSS"]
+    },
+    {
+      "category": "Frameworks & Libraries",
+      "items": ["React", "Node.js", "TensorFlow", "PyTorch", "FastAPI", "Flask", "Django", "Pandas", "NumPy", "Matplotlib"]
+    },
+    {
+      "category": "Systems & Tools",
+      "items": ["Docker", "PostgreSQL", "Redis", "Git", "Unix/Linux", "CI/CD", "VS Code", "PyCharm", "IntelliJ"]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Predictive Maintenance",
+      "link": "",
+      "bullets": [
+        "Trained 7 deep learning architectures including Bidirectional LSTM, Temporal CNN, and Transformer using PyTorch Lightning to predict jet engine failure on NASA benchmark data, achieving 11.71 RMSE",
+        "Built end-to-end data pipelines processing 21 sensor channels across multiple fault-mode datasets, implementing normalization, sequence windowing, and automated data quality validation",
+        "Instrumented MLflow to log hyperparameters, metrics, and model artifacts across 100+ training runs, enabling reproducible experiment tracking and model comparison"
+      ],
+      "tags": ["Python", "PyTorch", "MLflow", "Scikit-learn", "Pandas"]
+    },
+    {
+      "name": "Sentiment Forecasting",
+      "link": "",
+      "bullets": [
+        "Built a quantitative forecasting pipeline achieving a 2.34 Sharpe ratio and −2.5% max drawdown over 180-day backtests by fusing FinBERT outputs with 9 topological and 6 momentum features",
+        "Trained and evaluated Logistic Regression, XGBoost, and Ensemble classifiers using time-series aware cross-validation to eliminate look-ahead bias, selecting the optimal model via Sharpe ratio on held-out data",
+        "Implemented Topological Data Analysis using 4-dimensional delay embeddings on 60-day rolling windows to extract market regime signals absent from traditional indicators"
+      ],
+      "tags": ["Python", "PyTorch", "Hugging Face", "Scikit-learn", "Pandas"]
+    },
+    {
+      "name": "MoodVerse",
+      "link": "",
+      "bullets": [
+        "Built a desktop diary system with Stanford CoreNLP-powered sentiment analysis, classifying emotional tone across 150+ journal entries with 95% consistency & mapping outputs to a curated media recommendation engine",
+        "Designed a sentiment-to-media mapping layer integrating the Spotify & TMDb APIs to surface emotion-aligned content recommendations, increasing prototype engagement with suggested media by 35%"
+      ],
+      "tags": ["Java", "Stanford CoreNLP"]
+    }
+  ],
+  "photos": [
+    { "src": "photos/toronto-sunset.jpg", "alt": "Toronto skyline at sunset" },
+    { "src": "photos/cat-couch.jpg", "alt": "Tabby cat on the couch" },
+    { "src": "photos/cn-tower.jpg", "alt": "CN Tower with dramatic clouds" },
+    { "src": "photos/coastal-sunset.jpg", "alt": "Coastal sunset with lantern tree" },
+    { "src": "photos/bird-on-head.jpg", "alt": "Bird perched on head" },
+    { "src": "photos/uzungol.jpg", "alt": "Uzungöl lake and mosque reflection" },
+    { "src": "photos/uoft-architecture.jpg", "alt": "University of Toronto architecture" },
+    { "src": "photos/golden-hour.jpg", "alt": "Golden hour street scene" },
+    { "src": "photos/misty-forest.jpg", "alt": "Misty forest mountainside" },
+    { "src": "photos/cat-closeup.jpg", "alt": "Cat close-up portrait" }
+  ]
+}

@@ -6,7 +6,7 @@
   "hero": {
     "firstName": "Abdullah",
     "lastName": "Chabaytah",
-    "avatar": "",
+    "avatar": "photos/avatar.jpg",
     "roles": [
       "machine learning",
       "backend engineering",
@@ -54,15 +54,48 @@
   "skills": [
     {
       "category": "Languages",
-      "items": ["Python", "TypeScript/JavaScript", "C/C++", "Java", "Golang", "R", "Kotlin", "Assembly", "Rust", "SQL", "HTML/CSS"]
+      "items": [
+        "Python",
+        "TypeScript/JavaScript",
+        "C/C++",
+        "Java",
+        "Golang",
+        "R",
+        "Kotlin",
+        "Assembly",
+        "Rust",
+        "SQL",
+        "HTML/CSS"
+      ]
     },
     {
       "category": "Frameworks & Libraries",
-      "items": ["React", "Node.js", "TensorFlow", "PyTorch", "FastAPI", "Flask", "Django", "Pandas", "NumPy", "Matplotlib"]
+      "items": [
+        "React",
+        "Node.js",
+        "TensorFlow",
+        "PyTorch",
+        "FastAPI",
+        "Flask",
+        "Django",
+        "Pandas",
+        "NumPy",
+        "Matplotlib"
+      ]
     },
     {
       "category": "Systems & Tools",
-      "items": ["Docker", "PostgreSQL", "Redis", "Git", "Unix/Linux", "CI/CD", "VS Code", "PyCharm", "IntelliJ"]
+      "items": [
+        "Docker",
+        "PostgreSQL",
+        "Redis",
+        "Git",
+        "Unix/Linux",
+        "CI/CD",
+        "VS Code",
+        "PyCharm",
+        "IntelliJ"
+      ]
     }
   ],
   "projects": [
@@ -74,7 +107,13 @@
         "Built end-to-end data pipelines processing 21 sensor channels across multiple fault-mode datasets, implementing normalization, sequence windowing, and automated data quality validation",
         "Instrumented MLflow to log hyperparameters, metrics, and model artifacts across 100+ training runs, enabling reproducible experiment tracking and model comparison"
       ],
-      "tags": ["Python", "PyTorch", "MLflow", "Scikit-learn", "Pandas"]
+      "tags": [
+        "Python",
+        "PyTorch",
+        "MLflow",
+        "Scikit-learn",
+        "Pandas"
+      ]
     },
     {
       "name": "Sentiment Forecasting",
@@ -84,7 +123,13 @@
         "Trained and evaluated Logistic Regression, XGBoost, and Ensemble classifiers using time-series aware cross-validation to eliminate look-ahead bias, selecting the optimal model via Sharpe ratio on held-out data",
         "Implemented Topological Data Analysis using 4-dimensional delay embeddings on 60-day rolling windows to extract market regime signals absent from traditional indicators"
       ],
-      "tags": ["Python", "PyTorch", "Hugging Face", "Scikit-learn", "Pandas"]
+      "tags": [
+        "Python",
+        "PyTorch",
+        "Hugging Face",
+        "Scikit-learn",
+        "Pandas"
+      ]
     },
     {
       "name": "MoodVerse",
@@ -93,19 +138,52 @@
         "Built a desktop diary system with Stanford CoreNLP-powered sentiment analysis, classifying emotional tone across 150+ journal entries with 95% consistency & mapping outputs to a curated media recommendation engine",
         "Designed a sentiment-to-media mapping layer integrating the Spotify & TMDb APIs to surface emotion-aligned content recommendations, increasing prototype engagement with suggested media by 35%"
       ],
-      "tags": ["Java", "Stanford CoreNLP"]
+      "tags": [
+        "Java",
+        "Stanford CoreNLP"
+      ]
     }
   ],
   "photos": [
-    { "src": "photos/toronto-sunset.jpg", "alt": "Toronto skyline at sunset" },
-    { "src": "photos/cat-couch.jpg", "alt": "Tabby cat on the couch" },
-    { "src": "photos/cn-tower.jpg", "alt": "CN Tower with dramatic clouds" },
-    { "src": "photos/coastal-sunset.jpg", "alt": "Coastal sunset with lantern tree" },
-    { "src": "photos/bird-on-head.jpg", "alt": "Bird perched on head" },
-    { "src": "photos/uzungol.jpg", "alt": "Uzungöl lake and mosque reflection" },
-    { "src": "photos/uoft-architecture.jpg", "alt": "University of Toronto architecture" },
-    { "src": "photos/golden-hour.jpg", "alt": "Golden hour street scene" },
-    { "src": "photos/misty-forest.jpg", "alt": "Misty forest mountainside" },
-    { "src": "photos/cat-closeup.jpg", "alt": "Cat close-up portrait" }
+    {
+      "src": "photos/toronto-sunset.jpg",
+      "alt": "Toronto skyline at sunset"
+    },
+    {
+      "src": "photos/cat-couch.jpg",
+      "alt": "Tabby cat on the couch"
+    },
+    {
+      "src": "photos/cn-tower.jpg",
+      "alt": "CN Tower with dramatic clouds"
+    },
+    {
+      "src": "photos/coastal-sunset.jpg",
+      "alt": "Coastal sunset with lantern tree"
+    },
+    {
+      "src": "photos/bird-on-head.jpg",
+      "alt": "Bird perched on head"
+    },
+    {
+      "src": "photos/uzungol.jpg",
+      "alt": "Uzungöl lake and mosque reflection"
+    },
+    {
+      "src": "photos/uoft-architecture.jpg",
+      "alt": "University of Toronto architecture"
+    },
+    {
+      "src": "photos/golden-hour.jpg",
+      "alt": "Golden hour street scene"
+    },
+    {
+      "src": "photos/misty-forest.jpg",
+      "alt": "Misty forest mountainside"
+    },
+    {
+      "src": "photos/cat-closeup.jpg",
+      "alt": "Cat close-up portrait"
+    }
   ]
 }

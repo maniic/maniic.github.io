@@ -10,10 +10,10 @@
     "roles": [
       "machine learning",
       "backend engineering",
-      "systems programming",
+      "AI systems programming",
       "photography"
     ],
-    "tagline": "CS student at the <a href=\"https://www.utoronto.ca\" target=\"_blank\" rel=\"noopener\">University of Toronto</a>, focused on machine learning, systems, and backend engineering."
+    "tagline": "CS student at the <a href=\"https://www.utoronto.ca\" target=\"_blank\" rel=\"noopener\">University of Toronto</a>, focused on machine learning, AI systems, and backend engineering."
   },
   "socials": {
     "github": "https://github.com/maniic",
@@ -90,6 +90,8 @@
         "PostgreSQL",
         "Redis",
         "Git",
+        "Github",
+        "Slack",
         "Unix/Linux",
         "CI/CD",
         "VS Code",
@@ -147,7 +149,7 @@
   "photos": [
     {
       "src": "photos/img-3296.jpg",
-      "alt": "img 3296"
+      "alt": "CASA"
     },
     {
       "src": "photos/bird-on-head.jpg",
@@ -155,11 +157,11 @@
     },
     {
       "src": "photos/img-3703.jpg",
-      "alt": "img 3703"
+      "alt": "Cherry Blossoms - Trinity College"
     },
     {
       "src": "photos/img-3291.jpg",
-      "alt": "img 3291"
+      "alt": "UC Quad - University of Toronto"
     },
     {
       "src": "photos/toronto-sunset.jpg",
@@ -167,7 +169,7 @@
     },
     {
       "src": "photos/cat-couch.jpg",
-      "alt": "Tabby cat on the couch"
+      "alt": "Alvin (from alvin and the chipmunks)"
     },
     {
       "src": "photos/cn-tower.jpg",
@@ -175,11 +177,11 @@
     },
     {
       "src": "photos/coastal-sunset.jpg",
-      "alt": "Coastal sunset with lantern tree"
+      "alt": "Trabzon, Turkey"
     },
     {
       "src": "photos/uzungol.jpg",
-      "alt": "Uzungöl lake and mosque reflection"
+      "alt": "Uzungöl, Turkey - One of my favorite moments I've captured"
     },
     {
       "src": "photos/uoft-architecture.jpg",
@@ -187,31 +189,31 @@
     },
     {
       "src": "photos/golden-hour.jpg",
-      "alt": "Golden hour street scene"
+      "alt": "Istanbul"
     },
     {
       "src": "photos/img-3295.jpg",
-      "alt": "img 3295"
+      "alt": ""
     },
     {
       "src": "photos/misty-forest.jpg",
-      "alt": "Misty forest mountainside"
+      "alt": "Turkey"
     },
     {
       "src": "photos/cat-closeup.jpg",
-      "alt": "Cat close-up portrait"
+      "alt": ""
     },
     {
       "src": "photos/img-3860.jpg",
-      "alt": "img 3860"
+      "alt": "Maniic in the wild?"
     },
     {
       "src": "photos/img-3861.jpg",
-      "alt": "img 3861"
+      "alt": ""
     },
     {
       "src": "photos/img-3862.jpg",
-      "alt": "img 3862"
+      "alt": "6 a.m. walks surprisingly lead to good photos"
     }
   ]
 }

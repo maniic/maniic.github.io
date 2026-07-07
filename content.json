@@ -6,6 +6,7 @@
   "hero": {
     "firstName": "Abdullah",
     "lastName": "Chabaytah",
+    "avatar": "",
     "roles": [
       "machine learning",
       "backend engineering",

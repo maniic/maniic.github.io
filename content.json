@@ -146,6 +146,22 @@
   ],
   "photos": [
     {
+      "src": "photos/img-3296.jpg",
+      "alt": "img 3296"
+    },
+    {
+      "src": "photos/bird-on-head.jpg",
+      "alt": "Bird perched on head"
+    },
+    {
+      "src": "photos/img-3703.jpg",
+      "alt": "img 3703"
+    },
+    {
+      "src": "photos/img-3291.jpg",
+      "alt": "img 3291"
+    },
+    {
       "src": "photos/toronto-sunset.jpg",
       "alt": "Toronto skyline at sunset"
     },
@@ -162,10 +178,6 @@
       "alt": "Coastal sunset with lantern tree"
     },
     {
-      "src": "photos/bird-on-head.jpg",
-      "alt": "Bird perched on head"
-    },
-    {
       "src": "photos/uzungol.jpg",
       "alt": "Uzungöl lake and mosque reflection"
     },
@@ -178,12 +190,28 @@
       "alt": "Golden hour street scene"
     },
     {
+      "src": "photos/img-3295.jpg",
+      "alt": "img 3295"
+    },
+    {
       "src": "photos/misty-forest.jpg",
       "alt": "Misty forest mountainside"
     },
     {
       "src": "photos/cat-closeup.jpg",
       "alt": "Cat close-up portrait"
+    },
+    {
+      "src": "photos/img-3860.jpg",
+      "alt": "img 3860"
+    },
+    {
+      "src": "photos/img-3861.jpg",
+      "alt": "img 3861"
+    },
+    {
+      "src": "photos/img-3862.jpg",
+      "alt": "img 3862"
     }
   ]
 }

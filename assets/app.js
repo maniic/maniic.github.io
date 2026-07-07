@@ -3,6 +3,7 @@
   'use strict';
 
   var isTouch = window.matchMedia('(pointer: coarse)').matches;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var page = document.body.getAttribute('data-page') || 'home';
 
   /* ---------- Theme ---------- */
@@ -59,6 +60,12 @@
 
   /* ---------- Scroll reveal ---------- */
   function initReveal() {
+    if (reduceMotion) {
+      document.querySelectorAll('.reveal, .stagger-child').forEach(function (el) {
+        el.classList.add('visible');
+      });
+      return;
+    }
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
@@ -107,6 +114,12 @@
   function scrambleHero(first, last) {
     var el = document.getElementById('heroName');
     if (!el) return;
+    if (reduceMotion) {
+      el.innerHTML = first + '<br /><span>' + last + '</span>';
+      el.classList.add('scramble-done');
+      el.style.opacity = '1';
+      return;
+    }
     var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var totalLen = first.length + last.length;
     var resolved = 0;
@@ -142,6 +155,10 @@
   function initRoles(roles) {
     var target = document.getElementById('roleText');
     if (!target || !roles || !roles.length) return;
+    if (reduceMotion) {
+      target.textContent = roles[0];
+      return;
+    }
     var idx = 0, len = 0, deleting = false;
 
     function step() {
@@ -265,6 +282,12 @@
     scrambleHero(c.hero.firstName, c.hero.lastName);
     initRoles(c.hero.roles);
 
+    var avatar = document.getElementById('heroAvatar');
+    if (avatar && c.hero.avatar) {
+      avatar.src = c.hero.avatar;
+      avatar.classList.add('show');
+    }
+
     var tagline = document.getElementById('heroTagline');
     if (tagline) tagline.innerHTML = c.hero.tagline;
 
@@ -355,6 +378,11 @@
       img.src = photos[current].src;
       img.alt = photos[current].alt;
       caption.textContent = photos[current].alt + ' · ' + (current + 1) + '/' + photos.length;
+      // preload neighbours so swiping feels instant
+      [current + 1, current - 1].forEach(function (n) {
+        var pre = new Image();
+        pre.src = photos[(n + photos.length) % photos.length].src;
+      });
     }
 
     function open(i) { show(i); box.classList.add('open'); document.body.style.overflow = 'hidden'; }
@@ -375,6 +403,22 @@
       if (e.key === 'ArrowLeft') show(current - 1);
       if (e.key === 'ArrowRight') show(current + 1);
     });
+
+    // Touch: swipe left/right to navigate, swipe down to close
+    var touchX = 0, touchY = 0;
+    box.addEventListener('touchstart', function (e) {
+      touchX = e.touches[0].clientX;
+      touchY = e.touches[0].clientY;
+    }, { passive: true });
+    box.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - touchX;
+      var dy = e.changedTouches[0].clientY - touchY;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+        show(dx > 0 ? current - 1 : current + 1);
+      } else if (dy > 60 && Math.abs(dy) > Math.abs(dx)) {
+        close();
+      }
+    }, { passive: true });
   }
 
   /* ---------- Boot ---------- */
@@ -384,7 +428,16 @@
   initMagnetic();
   initTime();
 
-  fetch('content.json', { cache: 'no-cache' })
+  // Platform-appropriate palette trigger label
+  var paletteTrigger = document.getElementById('paletteTrigger');
+  if (paletteTrigger) {
+    paletteTrigger.textContent = isTouch
+      ? '>_'
+      : (/Mac/.test(navigator.platform || '') ? '⌘K' : 'ctrl K');
+  }
+
+  // ?t= busts the GitHub Pages CDN cache (max-age=600) so edits show up fast
+  fetch('content.json?t=' + Date.now(), { cache: 'no-store' })
     .then(function (r) { return r.json(); })
     .then(function (content) {
       var resumeLink = document.getElementById('resumeLink');

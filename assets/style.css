@@ -97,14 +97,18 @@ nav {
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 1.25rem 2rem;
+  padding: 1.25rem max(2rem, env(safe-area-inset-right)) 1.25rem max(2rem, env(safe-area-inset-left));
+  padding-top: max(1.25rem, env(safe-area-inset-top));
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: var(--nav-bg);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
+
+.nav-logo .logo-short { display: none; }
 
 .nav-logo {
   font-family: var(--mono);
@@ -168,6 +172,17 @@ nav {
   border-top: none;
 }
 
+.hero-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  margin-bottom: 1.25rem;
+  display: none;
+}
+.hero-avatar.show { display: block; }
+
 .hero-name {
   font-family: var(--mono);
   font-size: clamp(2.2rem, 5.5vw, 3.6rem);
@@ -176,11 +191,12 @@ nav {
   letter-spacing: -0.02em;
   color: var(--text);
   margin-bottom: 1rem;
-  opacity: 0;
   min-height: 2.6em;
 }
 
-.hero-name.scramble-done { opacity: 1; }
+/* Only hide the name for the scramble effect when JS is actually running */
+html.js .hero-name { opacity: 0; }
+html.js .hero-name.scramble-done { opacity: 1; }
 .hero-name span { color: var(--accent); }
 
 .hero-role {
@@ -640,7 +656,7 @@ a.project-name:hover { color: var(--accent); border-color: var(--accent); }
 /* Footer */
 footer {
   border-top: 1px solid var(--border);
-  padding: 2.5rem 0;
+  padding: 2.5rem 0 max(2.5rem, env(safe-area-inset-bottom));
 }
 
 .footer-inner {
@@ -683,19 +699,32 @@ footer {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.reveal {
+html.js .reveal {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+html.js .reveal.visible { opacity: 1; transform: translateY(0); }
 
-.stagger-child {
+html.js .stagger-child {
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.stagger-child.visible { opacity: 1; transform: translateY(0); }
+html.js .stagger-child.visible { opacity: 1; transform: translateY(0); }
+
+/* Motion sensitivity: strip the theatrics, keep the content */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-role, .hero-socials, .hero-tagline, .hero-cta {
+    animation-duration: 0.01ms;
+    animation-delay: 0ms;
+  }
+  .hero-role .caret { animation: none; }
+  .section-label:hover { animation: none; }
+  html.js .reveal, html.js .stagger-child { transition: none; }
+  .gallery-item, .gallery-item img, .project-card { transition: none; }
+}
 
 /* Mobile */
 @media (max-width: 800px) {
@@ -703,15 +732,45 @@ footer {
 }
 
 @media (max-width: 600px) {
-  nav { padding: 1rem 1.25rem; }
+  nav {
+    padding: 0.85rem max(1rem, env(safe-area-inset-right)) 0.85rem max(1rem, env(safe-area-inset-left));
+    padding-top: max(0.85rem, env(safe-area-inset-top));
+  }
+  .nav-logo .logo-full { display: none; }
+  .nav-logo .logo-short { display: inline; }
   .container { padding: 0 1.25rem; }
-  .hero { padding: 9rem 0 4rem; }
+  .hero { padding: 8.5rem 0 4rem; }
   .hero-name { font-size: 2rem; }
-  .page-header { padding: 8rem 0 2rem; }
+  .page-header { padding: 7.5rem 0 2rem; }
   .exp-item, .edu-item { grid-template-columns: 1fr; gap: 0.4rem; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
-  .nav-links { gap: 1.2rem; }
-  .nav-right { gap: 1.2rem; }
-  .nav-kbd { display: none; }
+  .nav-links { gap: 0.9rem; }
+  .nav-links a { font-size: 12px; }
+  .nav-right { gap: 0.6rem; }
+  .nav-btn { padding: 6px 8px; }
   .gallery { columns: 1; }
+
+  /* Lightbox: thumb-reachable controls, caption up top */
+  .lightbox-btn {
+    top: auto;
+    bottom: max(1.25rem, env(safe-area-inset-bottom));
+    transform: none;
+    padding: 0.8rem 1.2rem;
+  }
+  .lightbox-prev { left: 1rem; }
+  .lightbox-next { right: 1rem; }
+  .lightbox-close {
+    top: max(1rem, env(safe-area-inset-top));
+    bottom: auto;
+    right: 1rem;
+  }
+  .lightbox-caption {
+    bottom: auto;
+    top: max(1.25rem, env(safe-area-inset-top));
+    left: 1rem;
+    transform: none;
+    max-width: 65vw;
+    text-align: left;
+  }
+  .lightbox img { max-height: 74vh; }
 }

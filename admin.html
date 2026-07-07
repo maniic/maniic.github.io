@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>admin — Abdullah Chabaytah</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <script>
+    (function () {
+      document.documentElement.classList.add('js');
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches))
+        document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+  <style>
+    /* ── admin-only styles, on top of the site design tokens ── */
+    .admin-wrap { max-width: 860px; margin: 0 auto; padding: 6.5rem 1.25rem 4rem; }
+
+    .admin-login {
+      max-width: 320px;
+      margin: 30vh auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .a-input, .a-textarea, .a-select {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      padding: 0.55rem 0.75rem;
+      width: 100%;
+    }
+    .a-input:focus, .a-textarea:focus, .a-select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .a-textarea { font-family: var(--mono); font-size: 12.5px; line-height: 1.6; resize: vertical; }
+    .a-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin: 0.7rem 0 0.25rem;
+    }
+
+    .a-btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: none;
+      color: var(--text);
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .a-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .a-btn:disabled { opacity: 0.4; cursor: default; }
+    .a-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .a-btn.primary:hover { opacity: 0.9; color: #fff; }
+    .a-btn.tiny { padding: 0.15rem 0.5rem; font-size: 11px; }
+    .a-btn.danger:hover { color: #d64545; border-color: #d64545; }
+
+    .a-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.8rem max(1.25rem, env(safe-area-inset-right)) 0.8rem max(1.25rem, env(safe-area-inset-left));
+      padding-top: max(0.8rem, env(safe-area-inset-top));
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .a-bar .title { font-family: var(--mono); font-size: 13px; color: var(--text); }
+    .a-bar .status { font-family: var(--mono); font-size: 11px; color: var(--muted); flex: 1; text-align: right; }
+    .a-bar .status.err { color: #d64545; }
+    .a-bar .status.ok { color: var(--accent); }
+
+    .a-tabs {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .a-tab {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: none;
+      color: var(--muted);
+      padding: 0.35rem 0.75rem;
+      cursor: pointer;
+    }
+    .a-tab.active { color: var(--accent); border-color: var(--accent); }
+
+    .a-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem 1.25rem 1.25rem;
+      margin-bottom: 0.9rem;
+      position: relative;
+    }
+    .a-card-tools {
+      position: absolute;
+      top: 0.6rem; right: 0.7rem;
+      display: flex;
+      gap: 0.3rem;
+    }
+    .a-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    @media (max-width: 560px) { .a-row { grid-template-columns: 1fr; } }
+
+    .a-note { font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.7; }
+
+    .a-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.75rem; }
+    .a-photo { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--bg-card); }
+    .a-photo img { width: 100%; height: 100px; object-fit: cover; display: block; }
+    .a-photo .meta { padding: 0.4rem 0.5rem 0.55rem; }
+    .a-photo input { font-size: 11px; padding: 0.25rem 0.4rem; }
+    .a-photo .tools { display: flex; gap: 0.25rem; margin-top: 0.3rem; }
+    .a-photo.pending { outline: 2px dashed var(--accent); outline-offset: -2px; }
+
+    .a-add {
+      width: 100%;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      background: none;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 0.7rem;
+      cursor: pointer;
+    }
+    .a-add:hover { color: var(--accent); border-color: var(--accent); }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body data-page="admin">
+
+  <!-- ── Login ─────────────────────────────────────────────── -->
+  <div id="loginView" class="admin-login hidden">
+    <p style="font-family:var(--mono); font-size:13px; color:var(--muted); text-align:center; margin-bottom:1rem;">&gt;_</p>
+    <input id="email" class="a-input" type="email" placeholder="email" autocomplete="username" />
+    <input id="password" class="a-input" type="password" placeholder="password" autocomplete="current-password" />
+    <button id="loginBtn" class="a-btn">sign in</button>
+    <p id="loginMsg" class="a-note" style="text-align:center;"></p>
+  </div>
+
+  <!-- ── Editor ────────────────────────────────────────────── -->
+  <div id="editorView" class="hidden">
+    <div class="a-bar">
+      <span class="title">admin</span>
+      <span id="status" class="status"></span>
+      <button id="reloadBtn" class="a-btn tiny" title="Discard local edits, reload from live">reload</button>
+      <button id="publishBtn" class="a-btn tiny primary">publish</button>
+      <button id="signoutBtn" class="a-btn tiny">exit</button>
+    </div>
+    <div class="admin-wrap">
+      <div class="a-tabs" id="tabs"></div>
+      <div id="panel"></div>
+      <p class="a-note" style="margin-top:1.5rem;">
+        publish commits to the live repo. the site updates within ~1 minute; the CDN can
+        take up to 10 minutes to show it everywhere. hard-refresh if impatient.
+      </p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    'use strict';
+
+    /* ════════════════════════════════════════════════════════
+       CONFIG — fill these two in after creating your Supabase
+       project (Settings → API). Both values are safe to be
+       public: security comes from your login + the edge function.
+       ════════════════════════════════════════════════════════ */
+    var SUPABASE_URL = 'YOUR_SUPABASE_URL';           // e.g. https://abcdefgh.supabase.co
+    var SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // the "anon / public" key
+    var FN_URL = SUPABASE_URL + '/functions/v1/publish-portfolio';
+
+    var sb = null;
+    var state = null;          // the content.json object being edited
+    var pending = [];          // queued binary uploads: {path, b64, bytes}
+    var previews = {};         // path -> dataURL for not-yet-published images
+    var dirty = false;
+    var activeTab = 'hero';
+
+    var $ = function (id) { return document.getElementById(id); };
+
+    function setStatus(msg, cls) {
+      var el = $('status');
+      el.textContent = msg || '';
+      el.className = 'status' + (cls ? ' ' + cls : '');
+    }
+
+    function markDirty() {
+      if (!dirty) { dirty = true; setStatus('unsaved changes'); }
+    }
+
+    window.addEventListener('beforeunload', function (e) {
+      if (dirty || pending.length) { e.preventDefault(); e.returnValue = ''; }
+    });
+
+    /* ── auth ─────────────────────────────────────────────── */
+    function initAuth() {
+      if (SUPABASE_URL.indexOf('YOUR_') === 0) {
+        $('loginView').classList.remove('hidden');
+        $('loginMsg').textContent = 'setup needed: fill SUPABASE_URL + SUPABASE_ANON_KEY in admin.html';
+        $('loginBtn').disabled = true;
+        return;
+      }
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      sb.auth.getSession().then(function (res) {
+        if (res.data.session) enterEditor();
+        else $('loginView').classList.remove('hidden');
+      });
+
+      $('loginBtn').addEventListener('click', doLogin);
+      $('password').addEventListener('keydown', function (e) { if (e.key === 'Enter') doLogin(); });
+    }
+
+    function doLogin() {
+      $('loginMsg').textContent = '…';
+      sb.auth.signInWithPassword({ email: $('email').value, password: $('password').value })
+        .then(function (res) {
+          if (res.error) { $('loginMsg').textContent = 'access denied'; return; }
+          enterEditor();
+        });
+    }
+
+    function signOut() {
+      sb.auth.signOut().then(function () { location.reload(); });
+    }
+
+    async function getToken() {
+      var res = await sb.auth.getSession();
+      return res.data.session ? res.data.session.access_token : null;
+    }
+
+    /* ── edge function client ─────────────────────────────── */
+    async function call(op, payload, isRetry) {
+      var token = await getToken();
+      if (!token) throw new Error('signed out');
+      var res = await fetch(FN_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
+          'apikey': SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify(Object.assign({ op: op }, payload || {}))
+      });
+      if (res.status === 401 && !isRetry) {
+        await sb.auth.refreshSession();
+        return call(op, payload, true);
+      }
+      var body = await res.json().catch(function () { return {}; });
+      if (!res.ok) throw new Error(body.error || ('error ' + res.status));
+      return body;
+    }
+
+    /* ── load content ─────────────────────────────────────── */
+    async function loadContent() {
+      // same-origin read with cache-buster; falls back to the edge function
+      try {
+        var res = await fetch('content.json?t=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('http ' + res.status);
+        state = await res.json();
+      } catch (e) {
+        var body = await call('get');
+        state = JSON.parse(body.json);
+      }
+      dirty = false;
+      pending = [];
+      previews = {};
+    }
+
+    async function enterEditor() {
+      $('loginView').classList.add('hidden');
+      $('editorView').classList.remove('hidden');
+      setStatus('loading…');
+      try {
+        await loadContent();
+        renderTabs();
+        renderPanel();
+        setStatus('loaded');
+      } catch (e) {
+        setStatus('load failed: ' + e.message, 'err');
+      }
+    }
+
+    /* ── publish ──────────────────────────────────────────── */
+    async function publish() {
+      var btn = $('publishBtn');
+      btn.disabled = true;
+      try {
+        for (var i = 0; i < pending.length; i++) {
+          setStatus('uploading ' + (i + 1) + '/' + pending.length + ' — ' + pending[i].path);
+          await call('upload', { path: pending[i].path, content_b64: pending[i].b64 });
+        }
+        setStatus('publishing content…');
+        await call('save', { json: JSON.stringify(state, null, 2) });
+        pending = [];
+        dirty = false;
+        setStatus('published ✓ (live within ~1–10 min)', 'ok');
+      } catch (e) {
+        setStatus('publish failed: ' + e.message, 'err');
+      }
+      btn.disabled = false;
+    }
+
+    /* ── image handling ───────────────────────────────────── */
+    function slugName(name) {
+      return name.replace(/\.[^.]+$/, '').toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 48) || 'photo';
+    }
+
+    function recompress(file, maxEdge, quality) {
+      return new Promise(function (resolve, reject) {
+        var img = new Image();
+        var url = URL.createObjectURL(file);
+        img.onload = function () {
+          var w = img.naturalWidth, h = img.naturalHeight;
+          var scale = Math.min(1, maxEdge / Math.max(w, h));
+          var canvas = document.createElement('canvas');
+          canvas.width = Math.round(w * scale);
+          canvas.height = Math.round(h * scale);
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          URL.revokeObjectURL(url);
+          var dataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve(dataUrl);
+        };
+        img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('cannot decode image')); };
+        img.src = url;
+      });
+    }
+
+    function queueImage(file, fixedPath) {
+      return recompress(file, 2000, 0.82).then(function (dataUrl) {
+        var b64 = dataUrl.split(',')[1];
+        var path = fixedPath || ('photos/' + slugName(file.name) + '.jpg');
+        pending = pending.filter(function (p) { return p.path !== path; });
+        pending.push({ path: path, b64: b64 });
+        previews[path] = dataUrl;
+        markDirty();
+        return path;
+      });
+    }
+
+    function imgSrc(path) { return previews[path] || path; }
+
+    /* ── tiny dom helpers ─────────────────────────────────── */
+    function el(tag, attrs, children) {
+      var node = document.createElement(tag);
+      Object.keys(attrs || {}).forEach(function (k) {
+        if (k === 'class') node.className = attrs[k];
+        else if (k.indexOf('on') === 0) node.addEventListener(k.slice(2), attrs[k]);
+        else if (k === 'text') node.textContent = attrs[k];
+        else node.setAttribute(k, attrs[k]);
+      });
+      (children || []).forEach(function (c) { if (c) node.appendChild(c); });
+      return node;
+    }
+
+    function labeled(labelText, inputNode) {
+      var wrap = document.createElement('div');
+      wrap.appendChild(el('label', { class: 'a-label', text: labelText }));
+      wrap.appendChild(inputNode);
+      return wrap;
+    }
+
+    function textInput(value, onchange, placeholder) {
+      return el('input', {
+        class: 'a-input', value: value == null ? '' : value, placeholder: placeholder || '',
+        oninput: function (e) { onchange(e.target.value); markDirty(); }
+      });
+    }
+
+    function textArea(value, onchange, rows) {
+      var t = el('textarea', {
+        class: 'a-textarea', rows: rows || 4,
+        oninput: function (e) { onchange(e.target.value); markDirty(); }
+      });
+      t.value = value == null ? '' : value;
+      return t;
+    }
+
+    function cardTools(arr, i, rerender) {
+      return el('div', { class: 'a-card-tools' }, [
+        el('button', { class: 'a-btn tiny', text: '↑', onclick: function () {
+          if (i > 0) { var t = arr[i - 1]; arr[i - 1] = arr[i]; arr[i] = t; markDirty(); rerender(); }
+        } }),
+        el('button', { class: 'a-btn tiny', text: '↓', onclick: function () {
+          if (i < arr.length - 1) { var t = arr[i + 1]; arr[i + 1] = arr[i]; arr[i] = t; markDirty(); rerender(); }
+        } }),
+        el('button', { class: 'a-btn tiny danger', text: '×', onclick: function () {
+          arr.splice(i, 1); markDirty(); rerender();
+        } })
+      ]);
+    }
+
+    function addButton(text, onclick) {
+      return el('button', { class: 'a-add', text: text, onclick: onclick });
+    }
+
+    /* ── tabs ─────────────────────────────────────────────── */
+    var TABS = ['hero', 'socials', 'education', 'experience', 'skills', 'projects', 'photos', 'resume', 'raw'];
+
+    function renderTabs() {
+      var box = $('tabs');
+      box.innerHTML = '';
+      TABS.forEach(function (t) {
+        box.appendChild(el('button', {
+          class: 'a-tab' + (t === activeTab ? ' active' : ''),
+          text: t,
+          onclick: function () { activeTab = t; renderTabs(); renderPanel(); }
+        }));
+      });
+    }
+
+    function renderPanel() {
+      var panel = $('panel');
+      panel.innerHTML = '';
+      var render = {
+        hero: renderHero, socials: renderSocials, education: renderEducation,
+        experience: renderExperience, skills: renderSkills, projects: renderProjects,
+        photos: renderPhotos, resume: renderResume, raw: renderRaw
+      }[activeTab];
+      render(panel);
+    }
+
+    /* ── section editors ──────────────────────────────────── */
+    function renderHero(panel) {
+      var card = el('div', { class: 'a-card' });
+
+      var avatarRow = el('div', { style: 'display:flex; align-items:center; gap:1rem; margin-bottom:0.5rem;' });
+      var avatarImg = el('img', {
+        src: state.hero.avatar ? imgSrc(state.hero.avatar) : '',
+        alt: '', style: 'width:64px;height:64px;border-radius:50%;object-fit:cover;border:1px solid var(--border);' +
+          (state.hero.avatar ? '' : 'display:none;')
+      });
+      var avatarInput = el('input', { type: 'file', accept: 'image/*', style: 'display:none' });
+      avatarInput.addEventListener('change', function () {
+        var f = avatarInput.files[0];
+        if (!f) return;
+        queueImage(f, 'photos/avatar.jpg').then(function (path) {
+          state.hero.avatar = path;
+          avatarImg.src = imgSrc(path);
+          avatarImg.style.display = '';
+        }).catch(function (e) { setStatus(e.message, 'err'); });
+      });
+      avatarRow.appendChild(avatarImg);
+      avatarRow.appendChild(el('button', { class: 'a-btn tiny', text: 'upload photo', onclick: function () { avatarInput.click(); } }));
+      if (state.hero.avatar) {
+        avatarRow.appendChild(el('button', { class: 'a-btn tiny danger', text: 'remove', onclick: function () {
+          state.hero.avatar = '';
+          avatarImg.style.display = 'none';
+          markDirty();
+        } }));
+      }
+      avatarRow.appendChild(avatarInput);
+      card.appendChild(labeled('avatar (front page)', avatarRow));
+
+      var row = el('div', { class: 'a-row' });
+      row.appendChild(labeled('first name', textInput(state.hero.firstName, function (v) { state.hero.firstName = v; })));
+      row.appendChild(labeled('last name', textInput(state.hero.lastName, function (v) { state.hero.lastName = v; })));
+      card.appendChild(row);
+
+      card.appendChild(labeled('rotating roles (one per line)', textArea(state.hero.roles.join('\n'), function (v) {
+        state.hero.roles = v.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+      }, 4)));
+
+      card.appendChild(labeled('tagline (HTML links allowed)', textArea(state.hero.tagline, function (v) { state.hero.tagline = v; }, 3)));
+      panel.appendChild(card);
+    }
+
+    function renderSocials(panel) {
+      var card = el('div', { class: 'a-card' });
+      card.appendChild(labeled('github url', textInput(state.socials.github, function (v) { state.socials.github = v; })));
+      card.appendChild(labeled('linkedin url', textInput(state.socials.linkedin, function (v) { state.socials.linkedin = v; })));
+      card.appendChild(labeled('email', textInput(state.socials.email, function (v) { state.socials.email = v; })));
+      panel.appendChild(card);
+    }
+
+    function renderEducation(panel) {
+      var rerender = function () { renderPanel(); };
+      state.education.forEach(function (e, i) {
+        var card = el('div', { class: 'a-card' }, [cardTools(state.education, i, rerender)]);
+        var row = el('div', { class: 'a-row' });
+        row.appendChild(labeled('period', textInput(e.period, function (v) { e.period = v; })));
+        row.appendChild(labeled('school', textInput(e.school, function (v) { e.school = v; })));
+        card.appendChild(row);
+        card.appendChild(labeled('degree', textInput(e.degree, function (v) { e.degree = v; })));
+        card.appendChild(labeled('detail lines (one per line, HTML allowed)', textArea(e.details.join('\n'), function (v) {
+          e.details = v.split('\n').filter(function (s) { return s.trim(); });
+        }, 4)));
+        panel.appendChild(card);
+      });
+      panel.appendChild(addButton('+ add education', function () {
+        state.education.push({ period: '', degree: '', school: '', details: [] });
+        markDirty(); rerender();
+      }));
+    }
+
+    function renderExperience(panel) {
+      var rerender = function () { renderPanel(); };
+      state.experience.forEach(function (x, i) {
+        var card = el('div', { class: 'a-card' }, [cardTools(state.experience, i, rerender)]);
+        var row = el('div', { class: 'a-row' });
+        row.appendChild(labeled('period', textInput(x.period, function (v) { x.period = v; })));
+        row.appendChild(labeled('company — location', textInput(x.company, function (v) { x.company = v; })));
+        card.appendChild(row);
+        card.appendChild(labeled('role', textInput(x.role, function (v) { x.role = v; })));
+        card.appendChild(labeled('bullets (one per line)', textArea(x.bullets.join('\n'), function (v) {
+          x.bullets = v.split('\n').filter(function (s) { return s.trim(); });
+        }, 5)));
+        panel.appendChild(card);
+      });
+      panel.appendChild(addButton('+ add experience', function () {
+        state.experience.push({ period: '', role: '', company: '', bullets: [] });
+        markDirty(); rerender();
+      }));
+    }
+
+    function renderSkills(panel) {
+      var rerender = function () { renderPanel(); };
+      state.skills.forEach(function (s, i) {
+        var card = el('div', { class: 'a-card' }, [cardTools(state.skills, i, rerender)]);
+        card.appendChild(labeled('category', textInput(s.category, function (v) { s.category = v; })));
+        card.appendChild(labeled('items (comma separated)', textArea(s.items.join(', '), function (v) {
+          s.items = v.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+        }, 3)));
+        panel.appendChild(card);
+      });
+      panel.appendChild(addButton('+ add category', function () {
+        state.skills.push({ category: '', items: [] });
+        markDirty(); rerender();
+      }));
+    }
+
+    function renderProjects(panel) {
+      var rerender = function () { renderPanel(); };
+      state.projects.forEach(function (p, i) {
+        var card = el('div', { class: 'a-card' }, [cardTools(state.projects, i, rerender)]);
+        var row = el('div', { class: 'a-row' });
+        row.appendChild(labeled('name', textInput(p.name, function (v) { p.name = v; })));
+        row.appendChild(labeled('link (optional)', textInput(p.link, function (v) { p.link = v; })));
+        card.appendChild(row);
+        card.appendChild(labeled('bullets (one per line)', textArea(p.bullets.join('\n'), function (v) {
+          p.bullets = v.split('\n').filter(function (s) { return s.trim(); });
+        }, 5)));
+        card.appendChild(labeled('tags (comma separated)', textInput(p.tags.join(', '), function (v) {
+          p.tags = v.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+        })));
+        panel.appendChild(card);
+      });
+      panel.appendChild(addButton('+ add project', function () {
+        state.projects.push({ name: '', link: '', bullets: [], tags: [] });
+        markDirty(); rerender();
+      }));
+    }
+
+    function renderPhotos(panel) {
+      var rerender = function () { renderPanel(); };
+      var grid = el('div', { class: 'a-photos' });
+
+      state.photos.forEach(function (p, i) {
+        var isPending = !!previews[p.src];
+        var photo = el('div', { class: 'a-photo' + (isPending ? ' pending' : '') });
+        photo.appendChild(el('img', { src: imgSrc(p.src), alt: p.alt || '', loading: 'lazy' }));
+        var meta = el('div', { class: 'meta' });
+        meta.appendChild(el('input', {
+          class: 'a-input', value: p.alt || '', placeholder: 'caption',
+          oninput: function (e) { p.alt = e.target.value; markDirty(); }
+        }));
+        var tools = el('div', { class: 'tools' });
+        tools.appendChild(el('button', { class: 'a-btn tiny', text: '←', onclick: function () {
+          if (i > 0) { var t = state.photos[i - 1]; state.photos[i - 1] = p; state.photos[i] = t; markDirty(); rerender(); }
+        } }));
+        tools.appendChild(el('button', { class: 'a-btn tiny', text: '→', onclick: function () {
+          if (i < state.photos.length - 1) { var t = state.photos[i + 1]; state.photos[i + 1] = p; state.photos[i] = t; markDirty(); rerender(); }
+        } }));
+        tools.appendChild(el('button', { class: 'a-btn tiny danger', text: '×', onclick: function () {
+          state.photos.splice(i, 1);
+          pending = pending.filter(function (u) { return u.path !== p.src; });
+          markDirty(); rerender();
+        } }));
+        meta.appendChild(tools);
+        photo.appendChild(meta);
+        grid.appendChild(photo);
+      });
+
+      panel.appendChild(grid);
+
+      var fileInput = el('input', { type: 'file', accept: 'image/*', multiple: '', style: 'display:none' });
+      fileInput.addEventListener('change', function () {
+        var files = Array.prototype.slice.call(fileInput.files);
+        setStatus('processing ' + files.length + ' image(s)…');
+        files.reduce(function (chain, f) {
+          return chain.then(function () {
+            return queueImage(f).then(function (path) {
+              state.photos.push({ src: path, alt: slugName(f.name).replace(/-/g, ' ') });
+            });
+          });
+        }, Promise.resolve()).then(function () {
+          setStatus(files.length + ' queued — publish to upload');
+          rerender();
+        }).catch(function (e) { setStatus(e.message, 'err'); });
+      });
+      panel.appendChild(el('div', { style: 'margin-top:0.9rem;' }, [
+        addButton('+ add photos (auto-compressed)', function () { fileInput.click(); }),
+        fileInput
+      ]));
+      panel.appendChild(el('p', { class: 'a-note', text: 'note: removing a photo here hides it from the gallery; the file stays in repo history.' }));
+    }
+
+    function renderResume(panel) {
+      var card = el('div', { class: 'a-card' });
+      card.appendChild(labeled('current file', el('p', { class: 'a-note', text: state.meta.resumeFile || '(none)' })));
+
+      var fileInput = el('input', { type: 'file', accept: 'application/pdf', style: 'display:none' });
+      fileInput.addEventListener('change', function () {
+        var f = fileInput.files[0];
+        if (!f) return;
+        if (f.size > 8 * 1024 * 1024) { setStatus('pdf too large (8 MB max)', 'err'); return; }
+        var reader = new FileReader();
+        reader.onload = function () {
+          var b64 = String(reader.result).split(',')[1];
+          var name = f.name.replace(/[^A-Za-z0-9._-]/g, '_');
+          pending = pending.filter(function (p) { return p.path !== name; });
+          pending.push({ path: name, b64: b64 });
+          state.meta.resumeFile = name;
+          markDirty();
+          renderPanel();
+          setStatus('resume queued — publish to upload');
+        };
+        reader.readAsDataURL(f);
+      });
+      card.appendChild(el('div', { style: 'margin-top:0.5rem;' }, [
+        el('button', { class: 'a-btn', text: 'replace resume pdf', onclick: function () { fileInput.click(); } }),
+        fileInput
+      ]));
+      panel.appendChild(card);
+    }
+
+    function renderRaw(panel) {
+      var card = el('div', { class: 'a-card' });
+      var ta = el('textarea', { class: 'a-textarea', rows: 24, spellcheck: 'false' });
+      ta.value = JSON.stringify(state, null, 2);
+      var msg = el('p', { class: 'a-note' });
+      card.appendChild(ta);
+      card.appendChild(el('div', { style: 'display:flex; gap:0.6rem; align-items:center; margin-top:0.6rem;' }, [
+        el('button', { class: 'a-btn', text: 'apply', onclick: function () {
+          try {
+            state = JSON.parse(ta.value);
+            markDirty();
+            msg.textContent = 'applied — check the other tabs, then publish';
+          } catch (e) {
+            msg.textContent = 'invalid JSON: ' + e.message;
+          }
+        } }),
+        msg
+      ]));
+      panel.appendChild(card);
+    }
+
+    /* ── boot ─────────────────────────────────────────────── */
+    $('publishBtn').addEventListener('click', publish);
+    $('signoutBtn').addEventListener('click', signOut);
+    $('reloadBtn').addEventListener('click', function () {
+      if (dirty && !confirm('discard local edits?')) return;
+      enterEditor();
+    });
+    initAuth();
+  </script>
+</body>
+</html>

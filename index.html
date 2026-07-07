@@ -2,15 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Abdullah Chabaytah</title>
   <meta name="description" content="Abdullah Chabaytah — CS student at the University of Toronto, focused on machine learning, systems, and backend engineering." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#faf8f5" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#131211" media="(prefers-color-scheme: dark)" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Abdullah Chabaytah" />
+  <meta property="og:description" content="CS student at the University of Toronto — machine learning, systems, and backend engineering." />
+  <meta property="og:url" content="https://maniic.github.io/" />
+  <meta property="og:image" content="https://maniic.github.io/assets/og-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://maniic.github.io/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/style.css" />
   <script>
     (function () {
+      document.documentElement.classList.add('js');
       var t = localStorage.getItem('theme');
       if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches))
         document.documentElement.setAttribute('data-theme', 'dark');
@@ -22,7 +34,7 @@
   <div id="progress"></div>
 
   <nav>
-    <a class="nav-logo" href="/">abdullah chabaytah</a>
+    <a class="nav-logo" href="/"><span class="logo-full">abdullah chabaytah</span><span class="logo-short">ac</span></a>
     <div class="nav-right">
       <ul class="nav-links">
         <li><a href="/projects.html">Projects</a></li>
@@ -36,6 +48,7 @@
 
   <div class="container">
     <section class="hero">
+      <img class="hero-avatar" id="heroAvatar" alt="Abdullah Chabaytah" />
       <h1 class="hero-name" id="heroName" aria-label="Abdullah Chabaytah">Abdullah<br /><span>Chabaytah</span></h1>
 
       <p class="hero-role"><span class="prompt">&gt;</span> <span id="roleText"></span><span class="caret"></span></p>
@@ -91,6 +104,7 @@
           <a href="https://github.com/maniic" target="_blank" rel="noopener">GitHub</a>
           <a href="https://linkedin.com/in/achabaytah" target="_blank" rel="noopener">LinkedIn</a>
           <a href="mailto:a.chabaytah@mail.utoronto.ca">Email</a>
+          <a href="/admin.html">admin</a>
         </div>
       </div>
     </footer>

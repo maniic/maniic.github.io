@@ -33,6 +33,16 @@
   ],
   "experience": [
     {
+      "period": "Jun 2026 — Present",
+      "role": "Technology Executive",
+      "company": "University of Toronto - St. George",
+      "bullets": [
+        "Designed and shipped a responsive website for GDG @ UofT St. George using React, TypeScript, and HTML/CSS, serving 1000+ students",
+        "Built reusable frontend components to showcase events, resources, and initiatives, cutting page load times by 30% through code splitting and asset optimization",
+        "Integrated an LLM-powered chatbot into the GDG website using the Gemini API, answering common member questions about events, workshops, and resources"
+      ]
+    },
+    {
       "period": "May — Sep 2025",
       "role": "Software Developer Intern",
       "company": "Sports Up — Toronto, ON",

@@ -47,7 +47,7 @@
       "role": "Software Developer Intern",
       "company": "Sports Up — Toronto, ON",
       "bullets": [
-        "Engineered a cross-platform mobile application using React Native & Firebase, achieving 99% uptime across 100+ users under sustained loads of 50 requests/sec via real-time data synchronization & optimized query batching",
+        "Engineered a cross-platform mobile application using React Native & Firebase, achieving 99% uptime across 400+ users under sustained loads of 50 requests/sec via real-time data synchronization & optimized query batching",
         "Reduced crash rates by 35% & increased weekly active users by 20% by refactoring backend architecture and rebuilding UI/UX components to eliminate state management bottlenecks",
         "Implemented end-to-end testing frameworks using automated test suites to enforce deployment quality gates, cutting regression failures across 3 major feature releases"
       ]

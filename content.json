@@ -27,11 +27,19 @@
       "school": "University of Toronto",
       "details": [
         "Expected graduation May 2028.",
-        "<strong>Relevant Coursework:</strong> Data Structures & Algorithms, Theoretical Computation, Software Design, Systems Programming, Multivariable Calculus, Calculus with Proofs, Probability, Statistics & Data Analysis"
+        "<strong>Relevant Coursework:</strong> Data Structures & Algorithms, Theoretical Computation, Software Design, Systems Programming, Multivariable Calculus, Calculus with Proofs, Linear Algebra, Probability, Statistics & Data Analysis"
       ]
     }
   ],
   "experience": [
+    {
+      "period": "Sep 2026 — Dec 2026",
+      "role": "Incoming Full-Stack Developer Intern, AI Specialist",
+      "company": "NeedList.ORG — Toronto, ON",
+      "bullets": [
+        "Selected for an upcoming full-stack role focused on building scalable charity technology using TypeScript, NestJS, React, TanStack, and Firebase"
+      ]
+    },
     {
       "period": "Jun 2026 — Present",
       "role": "Technology Executive",
@@ -90,6 +98,7 @@
         "Django",
         "Pandas",
         "NumPy",
+        "Scikit-learn",
         "Matplotlib"
       ]
     },
@@ -125,6 +134,22 @@
         "MLflow",
         "Scikit-learn",
         "Pandas"
+      ]
+    },
+    {
+      "name": "Collaborative Code Editor",
+      "link": "",
+      "bullets": [
+        "Built a real-time collaborative code editor using Java 21, Spring Boot, and WebSockets, synchronizing edits, cursors, and user presence across shared coding sessions",
+        "Implemented a server-side Operational Transform engine backed by PostgreSQL and Redis, supporting reconnect/resync flows, cross-instance pub/sub, and isolated Docker execution sandboxes"
+      ],
+      "tags": [
+        "Java",
+        "Spring Boot",
+        "WebSockets",
+        "PostgreSQL",
+        "Redis",
+        "Docker"
       ]
     },
     {
